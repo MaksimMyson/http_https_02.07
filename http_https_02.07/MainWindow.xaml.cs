@@ -1,24 +1,37 @@
-﻿using System.Text;
+﻿using System;
+using System.Net;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using HtmlAgilityPack;
 
-namespace http_https_02._07
+namespace HamletApp
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window
     {
         public MainWindow()
         {
             InitializeComponent();
+        }
+
+        private void LoadButton_Click(object sender, RoutedEventArgs e)
+        {
+        
+            string url = "https://www.gutenberg.org/files/1524/1524-0.txt";
+
+            using (WebClient client = new WebClient())
+            {
+                try
+                {
+                    
+                    string text = client.DownloadString(url);
+
+                 
+                    HamletTextBox.Text = text;
+                }
+                catch (WebException ex)
+                {
+                    MessageBox.Show("Помилка при завантаженні тексту: " + ex.Message);
+                }
+            }
         }
     }
 }
